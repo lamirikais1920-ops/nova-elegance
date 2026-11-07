@@ -729,8 +729,22 @@ async function submitOrder(e){
   } catch(err){
     btn.disabled = false;
     btn.textContent = 'Place order';
+    const orderText = [
+      'New Nova Elegance shirt order',
+      '',
+      'Name: ' + payload.Name,
+      'Email: ' + payload.Email,
+      'Phone: ' + payload.Phone,
+      'Address: ' + payload.Address,
+      'Governorate: ' + payload.Governorate,
+      'Order: ' + payload.Order,
+      'Total: ' + payload.Total
+    ].join('\n');
+    const gmailLink = 'https://mail.google.com/mail/?view=cm&fs=1&to=lamirikais1920@gmail.com&su=' +
+      encodeURIComponent(payload._subject) + '&body=' + encodeURIComponent(orderText);
+    window.open(gmailLink, '_blank');
     const fe=document.getElementById('form-error');
-    fe.textContent='Email delivery is not active yet. Open the activation email sent by FormSubmit to lamirikais1920@gmail.com, then try the order again.';
+    fe.innerHTML='FormSubmit unavailable. <a href="' + gmailLink + '" target="_blank" rel="noopener">Open Gmail draft to send this order</a>.';
     fe.classList.add('show');
   }
 }
