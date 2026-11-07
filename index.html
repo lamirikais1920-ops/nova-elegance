@@ -704,18 +704,28 @@ async function submitOrder(e){
   };
 
   try{
-    const formData = new FormData();
-    Object.entries(payload).forEach(([key, value]) => formData.append(key, value));
-    const res = await fetch('https://formsubmit.co/ajax/lamirikais1920@gmail.com', {
-      method: 'POST',
-      headers: { 'Accept':'application/json' },
-      body: formData
+    const relay = document.createElement('form');
+    relay.method = 'POST';
+    relay.action = 'https://formsubmit.co/lamirikais1920@gmail.com';
+    relay.style.display = 'none';
+
+    const fields = {
+      ...payload,
+      _captcha: 'false',
+      _template: 'table',
+      _next: window.location.href.split('#')[0] + '?order=sent'
+    };
+    Object.entries(fields).forEach(([key, value]) => {
+      const input = document.createElement('input');
+      input.type = 'hidden';
+      input.name = key;
+      input.value = value;
+      relay.appendChild(input);
     });
-    const result = await res.json().catch(() => ({}));
-    if(!res.ok || result.success === false) throw new Error(result.message || 'Request failed');
-    showSuccess();
-    cart = [];
-    renderCart();
+
+    document.body.appendChild(relay);
+    relay.submit();
+  }
   } catch(err){
     btn.disabled = false;
     btn.textContent = 'Place order';
