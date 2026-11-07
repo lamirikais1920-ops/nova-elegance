@@ -704,10 +704,12 @@ async function submitOrder(e){
   };
 
   try{
+    const formData = new FormData();
+    Object.entries(payload).forEach(([key, value]) => formData.append(key, value));
     const res = await fetch('https://formsubmit.co/ajax/lamirikais1920@gmail.com', {
       method: 'POST',
-      headers: { 'Content-Type':'application/json', 'Accept':'application/json' },
-      body: JSON.stringify(payload)
+      headers: { 'Accept':'application/json' },
+      body: formData
     });
     const result = await res.json().catch(() => ({}));
     if(!res.ok || result.success === false) throw new Error(result.message || 'Request failed');
