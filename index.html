@@ -705,20 +705,19 @@ async function submitOrder(e){
   };
 
   try{
-    const orderText = [
-      'New Nova Elegance shirt order',
-      '',
-      'Name: ' + payload.Name,
-      'Email: ' + payload.Email,
-      'Phone: ' + payload.Phone,
-      'Address: ' + payload.Address,
-      'Governorate: ' + payload.Governorate,
-      'Order: ' + payload.Order,
-      'Total: ' + payload.Total
-    ].join('\n');
-    const gmailLink = 'https://mail.google.com/mail/?view=cm&fs=1&to=kaislamiri1920@gmail.com&su=' +
-      encodeURIComponent(payload._subject) + '&body=' + encodeURIComponent(orderText);
-    window.open(gmailLink, '_blank');
+    const formData = new FormData();
+    Object.entries(payload).forEach(([key, value]) => formData.append(key, value));
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 8000);
+    const res = await fetch('https://formsubmit.co/ajax/kaislamiri1920@gmail.com', {
+      method: 'POST',
+      headers: { 'Accept':'application/json' },
+      body: formData,
+      signal: controller.signal
+    });
+    clearTimeout(timeout);
+    const result = await res.json().catch(() => ({}));
+    if(!res.ok || result.success === false) throw new Error(result.message || 'FormSubmit failed');
     showSuccess();
     cart = [];
     renderCart();
