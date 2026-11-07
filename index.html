@@ -481,6 +481,7 @@ html.intro-lock{overflow:hidden}
     </div>
 
     <button class="btn btn-primary" id="add-btn" onclick="addToCart()">Add to bag — 55 DT</button>
+    <button class="btn" id="buy-now-btn" onclick="startDirectOrder()" style="margin-top:10px;background:transparent;">Order now</button>
     <p class="trust-note">Delivery fee of 7 DT applies once per order, regardless of quantity.</p>
   </div>
 </div>
@@ -575,6 +576,12 @@ function changeStageQty(delta){
   document.getElementById('sum-qty').textContent = stageQty;
   document.getElementById('sum-shirt').textContent = (SHIRT_PRICE * stageQty).toFixed(2) + ' DT';
   document.getElementById('sum-total').textContent = (SHIRT_PRICE * stageQty + DELIVERY_FEE).toFixed(2) + ' DT';
+}
+
+function startDirectOrder(){
+  cart = [{size: stageSize, qty: stageQty}];
+  renderCart();
+  openCheckout();
 }
 
 function addToCart(){
