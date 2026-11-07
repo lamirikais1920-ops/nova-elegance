@@ -689,6 +689,8 @@ async function submitOrder(e){
 
   const payload = {
     _subject: 'New Nova Elegance shirt order',
+    _captcha: 'false',
+    _template: 'table',
     Name: document.getElementById('fullname').value,
     Email: document.getElementById('email').value,
     Phone: document.getElementById('phone').value,
@@ -707,14 +709,17 @@ async function submitOrder(e){
       headers: { 'Content-Type':'application/json', 'Accept':'application/json' },
       body: JSON.stringify(payload)
     });
-    if(!res.ok) throw new Error('Request failed');
+    const result = await res.json().catch(() => ({}));
+    if(!res.ok || result.success === false) throw new Error(result.message || 'Request failed');
     showSuccess();
     cart = [];
     renderCart();
   } catch(err){
     btn.disabled = false;
     btn.textContent = 'Place order';
-    const fe=document.getElementById('form-error');fe.textContent='Something went wrong sending your order. Please try again, or email kaislamiri1920@gmail.com directly.';fe.classList.add('show');
+    const fe=document.getElementById('form-error');
+    fe.textContent='Email delivery is not active yet. Open the activation email sent by FormSubmit to kaislamiri1920@gmail.com, then try the order again.';
+    fe.classList.add('show');
   }
 }
 
