@@ -724,22 +724,8 @@ async function submitOrder(e){
   } catch(err){
     btn.disabled = false;
     btn.textContent = 'Place order';
-    const orderText = [
-      'New Nova Elegance shirt order',
-      '',
-      'Name: ' + payload.Name,
-      'Email: ' + payload.Email,
-      'Phone: ' + payload.Phone,
-      'Address: ' + payload.Address,
-      'Governorate: ' + payload.Governorate,
-      'Order: ' + payload.Order,
-      'Total: ' + payload.Total
-    ].join('\n');
-    const gmailLink = 'https://mail.google.com/mail/?view=cm&fs=1&to=kaislamiri1920@gmail.com&su=' +
-      encodeURIComponent(payload._subject) + '&body=' + encodeURIComponent(orderText);
-    window.open(gmailLink, '_blank');
     const fe=document.getElementById('form-error');
-    fe.innerHTML='FormSubmit unavailable. <a href="' + gmailLink + '" target="_blank" rel="noopener">Open Gmail draft to send this order</a>.';
+    fe.textContent='The order could not be sent. Please try again in a moment.';
     fe.classList.add('show');
   }
 }
