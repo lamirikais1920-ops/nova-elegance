@@ -705,27 +705,23 @@ async function submitOrder(e){
   };
 
   try{
-    const relay = document.createElement('form');
-    relay.method = 'POST';
-    relay.action = 'https://formsubmit.co/lamirikais1920@gmail.com';
-    relay.style.display = 'none';
-
-    const fields = {
-      ...payload,
-      _captcha: 'false',
-      _template: 'table',
-      _next: window.location.href.split('#')[0] + '?order=sent'
-    };
-    Object.entries(fields).forEach(([key, value]) => {
-      const input = document.createElement('input');
-      input.type = 'hidden';
-      input.name = key;
-      input.value = value;
-      relay.appendChild(input);
-    });
-
-    document.body.appendChild(relay);
-    relay.submit();
+    const orderText = [
+      'New Nova Elegance shirt order',
+      '',
+      'Name: ' + payload.Name,
+      'Email: ' + payload.Email,
+      'Phone: ' + payload.Phone,
+      'Address: ' + payload.Address,
+      'Governorate: ' + payload.Governorate,
+      'Order: ' + payload.Order,
+      'Total: ' + payload.Total
+    ].join('\n');
+    const gmailLink = 'https://mail.google.com/mail/?view=cm&fs=1&to=lamirikais1920@gmail.com&su=' +
+      encodeURIComponent(payload._subject) + '&body=' + encodeURIComponent(orderText);
+    window.open(gmailLink, '_blank');
+    showSuccess();
+    cart = [];
+    renderCart();
   } catch(err){
     btn.disabled = false;
     btn.textContent = 'Place order';
