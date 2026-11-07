@@ -481,7 +481,6 @@ html.intro-lock{overflow:hidden}
     </div>
 
     <button class="btn btn-primary" id="add-btn" onclick="addToCart()">Add to bag — 55 DT</button>
-    <button class="btn" id="buy-now-btn" onclick="startDirectOrder()" style="margin-top:10px;background:transparent;">Order now</button>
     <p class="trust-note">Delivery fee of 7 DT applies once per order, regardless of quantity.</p>
   </div>
 </div>
@@ -576,12 +575,6 @@ function changeStageQty(delta){
   document.getElementById('sum-qty').textContent = stageQty;
   document.getElementById('sum-shirt').textContent = (SHIRT_PRICE * stageQty).toFixed(2) + ' DT';
   document.getElementById('sum-total').textContent = (SHIRT_PRICE * stageQty + DELIVERY_FEE).toFixed(2) + ' DT';
-}
-
-function startDirectOrder(){
-  cart = [{size: stageSize, qty: stageQty}];
-  renderCart();
-  openCheckout();
 }
 
 function addToCart(){
@@ -711,27 +704,16 @@ async function submitOrder(e){
   };
 
   try{
-    const relay = document.createElement('form');
-    relay.method = 'POST';
-    relay.action = 'https://formsubmit.co/lamirikais1920@gmail.com';
-    relay.style.display = 'none';
-
-    const fields = {
-      ...payload,
-      _captcha: 'false',
-      _template: 'table',
-      _next: window.location.href.split('#')[0] + '?order=sent'
-    };
-    Object.entries(fields).forEach(([key, value]) => {
-      const input = document.createElement('input');
-      input.type = 'hidden';
-      input.name = key;
-      input.value = value;
-      relay.appendChild(input);
+    const res = await fetch('https://formsubmit.co/ajax/lamirikais1920@gmail.com', {
+      method: 'POST',
+      headers: { 'Content-Type':'application/json', 'Accept':'application/json' },
+      body: JSON.stringify(payload)
     });
-
-    document.body.appendChild(relay);
-    relay.submit();
+    const result = await res.json().catch(() => ({}));
+    if(!res.ok || result.success === false) throw new Error(result.message || 'Request failed');
+    showSuccess();
+    cart = [];
+    renderCart();
   } catch(err){
     btn.disabled = false;
     btn.textContent = 'Place order';
