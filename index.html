@@ -716,9 +716,8 @@ async function submitOrder(e){
       'Order: ' + payload.Order,
       'Total: ' + payload.Total
     ].join('\n');
-    const gmailLink = 'https://mail.google.com/mail/?view=cm&fs=1&to=lamirikais1920@gmail.com&su=' +
-      encodeURIComponent(payload._subject) + '&body=' + encodeURIComponent(orderText);
-    window.open(gmailLink, '_blank');
+    const whatsappLink = 'https://wa.me/21690777180?text=' + encodeURIComponent(orderText);
+    window.open(whatsappLink, '_blank');
     showSuccess();
     cart = [];
     renderCart();
@@ -751,7 +750,7 @@ function showSuccess(){
     <div class="success-box">
       <div class="check">✓</div>
       <h3>Order sent</h3>
-      <p class="modal-sub">Your Gmail draft is ready. Press Send in Gmail to complete the order.</p>
+      <p class="modal-sub">WhatsApp is ready with your order. Press Send to complete the order.</p>
       <button class="btn btn-primary" onclick="closeAll()">Continue browsing</button>
     </div>
   `;
