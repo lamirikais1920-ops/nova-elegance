@@ -504,7 +504,7 @@ html.intro-lock{overflow:hidden}
     <div class="faq-grid">
       <article><h3>How do I order?</h3><p>Choose a size and quantity, add the shirt to your bag, then enter your delivery details at checkout.</p></article>
       <article><h3>How is delivery calculated?</h3><p>The delivery fee is 7 DT per order, even if you add more than one shirt.</p></article>
-      <article><h3>Need help before ordering?</h3><p>Email <a href="mailto:lamirikais1920@gmail.com">lamirikais1920@gmail.com</a> and the Nova Elegance team can help with your question.</p></article>
+      <article><h3>Need help before ordering?</h3><p>Email <a href="mailto:kaislamiri1920@gmail.com">kaislamiri1920@gmail.com</a> and the Nova Elegance team can help with your question.</p></article>
     </div>
   </div>
 </section>
@@ -512,7 +512,7 @@ html.intro-lock{overflow:hidden}
   <div class="footer-grid">
     <div><div class="logo-foot">Nova <em style="color:#fb3449">Elegance</em></div><p>Designed by a Tunisian fashion designer. One shirt, done right.</p></div>
     <div><h4>Shop</h4><a href="#the-shirt">The Nova Shirt</a><a href="#details">Details</a><a href="#how">How to order</a></div>
-    <div><h4>Contact</h4><a href="mailto:lamirikais1920@gmail.com">lamirikais1920@gmail.com</a><p>Delivery: 7 DT per order</p></div>
+    <div><h4>Contact</h4><a href="mailto:kaislamiri1920@gmail.com">kaislamiri1920@gmail.com</a><p>Delivery: 7 DT per order</p></div>
   </div>
   <div class="copyright">© 2026 Nova Elegance. All rights reserved.</div>
 </footer>
@@ -667,7 +667,7 @@ function checkoutFormHTML(){
       </div>
       <div class="form-error" id="form-error" role="alert"></div>
       <button type="submit" class="submit-btn" id="submit-btn">Place order</button>
-      <p class="form-note">By placing this order you agree that your name, contact details and order summary will be emailed to our team at lamirikais1920@gmail.com for fulfillment.</p>
+      <p class="form-note">By placing this order you agree that your name, contact details and order summary will be emailed to our team at kaislamiri1920@gmail.com for fulfillment.</p>
     </form>
   `;
 }
@@ -716,8 +716,9 @@ async function submitOrder(e){
       'Order: ' + payload.Order,
       'Total: ' + payload.Total
     ].join('\n');
-    const whatsappLink = 'https://wa.me/21690777180?text=' + encodeURIComponent(orderText);
-    window.open(whatsappLink, '_blank');
+    const gmailLink = 'https://mail.google.com/mail/?view=cm&fs=1&to=kaislamiri1920@gmail.com&su=' +
+      encodeURIComponent(payload._subject) + '&body=' + encodeURIComponent(orderText);
+    window.open(gmailLink, '_blank');
     showSuccess();
     cart = [];
     renderCart();
@@ -735,7 +736,7 @@ async function submitOrder(e){
       'Order: ' + payload.Order,
       'Total: ' + payload.Total
     ].join('\n');
-    const gmailLink = 'https://mail.google.com/mail/?view=cm&fs=1&to=lamirikais1920@gmail.com&su=' +
+    const gmailLink = 'https://mail.google.com/mail/?view=cm&fs=1&to=kaislamiri1920@gmail.com&su=' +
       encodeURIComponent(payload._subject) + '&body=' + encodeURIComponent(orderText);
     window.open(gmailLink, '_blank');
     const fe=document.getElementById('form-error');
@@ -750,7 +751,7 @@ function showSuccess(){
     <div class="success-box">
       <div class="check">✓</div>
       <h3>Order sent</h3>
-      <p class="modal-sub">WhatsApp is ready with your order. Press Send to complete the order.</p>
+      <p class="modal-sub">Gmail is ready with your order. Press Send to complete the order.</p>
       <button class="btn btn-primary" onclick="closeAll()">Continue browsing</button>
     </div>
   `;
